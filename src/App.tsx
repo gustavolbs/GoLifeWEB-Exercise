@@ -1,25 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+
+import Routes from "./Routes";
+import Content from "./Pages/Content";
+import ContentContext, { defaultContent } from "./Contexts/content";
+import TitleContext, { defaultTitle } from "./Contexts/pageTitle";
+
+import "font-awesome/css/font-awesome.min.css";
+import "./Styles/global.css";
 
 function App() {
+  const [content, setContent] = useState(defaultContent);
+  const [pageTitle, setPageTitle] = useState(defaultTitle);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <>
+      <ContentContext.Provider value={{ state: content, setState: setContent }}>
+        <TitleContext.Provider
+          value={{ title: pageTitle, setTitle: setPageTitle }}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+          <Routes />
+          <Content />
+        </TitleContext.Provider>
+      </ContentContext.Provider>
+    </>
   );
 }
 
